@@ -8,7 +8,8 @@ export default defineConfig([
     'node_modules/**',
     '.vscode/**',
     'coverage/**',
-    '*.config.js'
+    '*.config.js',
+    'public/**'
   ]),
   {
     languageOptions: {
@@ -18,14 +19,22 @@ export default defineConfig([
         tsconfigRootDir: process.cwd()
       }
     },
+    settings: {
+      react: {
+        version: 'detect'
+      }
+    },
     plugins: {
       '@typescript-eslint': tseslint.plugin,
       love,
       prettier,
+      react
     },
     rules: {
       '@typescript-eslint/consistent-type-definitions': 'off',
-      '@typescript-eslint/strict-boolean-expressions': 'off'
+      '@typescript-eslint/strict-boolean-expressions': 'off',
+      'react/jsx-uses-react': 'error',
+      'react/jsx-uses-vars': 'error'
     },
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx']
   }
