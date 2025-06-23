@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "jest --passWithNoTests",
+    "start":"webpack-dev-server --open",
+    "test": "jest --passWithNoTests --no-cache --runInBand",
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --onlyChanged",
     "test:ci": "npm test -- --coverage",
@@ -26,6 +27,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@typescript-eslint/eslint-plugin": "^8.34.1",
+    "clean-webpack-plugin": "^4.0.0",
     "eslint": "^9.29.0",
     "eslint-config-love": "^120.0.0",
     "eslint-config-prettier": "^10.1.5",
