@@ -2,6 +2,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import tseslint from 'typescript-eslint'
 import love from 'eslint-config-love';
 import prettier from 'eslint-config-prettier';
+import react from 'eslint-plugin-react'
 
 export default defineConfig([
   globalIgnores([
@@ -9,7 +10,8 @@ export default defineConfig([
     '.vscode/**',
     'coverage/**',
     '*.config.js',
-    'public/**'
+    'public/**',
+    '*.scss'
   ]),
   {
     languageOptions: {
