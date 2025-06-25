@@ -1,52 +1,64 @@
 import path from 'path'
+import { fileURLToPath } from 'url'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-import { OptimizationStages } from 'webpack'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 export default {
   mode: 'development',
   entry: './src/main/index.tsx',
   output: {
-    path: path.join(___dirname, 'public/js'),
-    publicPath: 'public/js',
-    fileName: 'bundle.js'
+    path: path.join(__dirname, 'public/js'),
+    publicPath: '/js/',
+    filename: 'bundle.js'
   },
   resolve: {
     extensions: [
-      '.ts', '.tsx', '.js', 'scss'
+      '.ts', '.tsx', '.js', '.jsx',
     ],
     alias: {
-      '@' : path.join(__dirname, 'src')
+      '@' : path.join(__dirname, 'src'),
     }
   },
   module: {
     rules: [{
-      test: /\.ts(x?)&/,
-      loader: 'ts-loader',
+      test: /\.tsx?$/,
+      loader: 'swc-loader',
       exclude: /node_modules/
     }, {
-      test: /\.scss/,
-      use: [{
-        loader: 'style-loader'
-      }, {
-        loader: 'css-loader',
-        options: {
-          modules: true
-        }
-      }, {
-        loader: 'sass-loader'
-      }]
-    }]
+      test: /\.module\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: '[local]__[hash:base64:5]'
+            },
+            esModule: false
+          }
+        },
+        'sass-loader',
+      ],
+      exclude: /node_modules/
+    }, {
+      test: /\.scss$/,
+      exclude: /\.module\.scss$/,
+      use: ['style-loader', 'css-loader', 'sass-loader'],
+    },]
   },
   devServer: {
-    contentBase: './public',
-    writeToDisk: true,
-    historyApiFallback: true
-  },
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM'
+    static: {
+      directory: path.join(__dirname, 'public')
+    },
+    historyApiFallback: true,
+    devMiddleware: {
+      writeToDisk: true
+    },
+    port: 3000
   },
   plugins: [
-    new CleanWebpackPlugin()
-  ]
+    new CleanWebpackPlugin(),
+  ],
 }
