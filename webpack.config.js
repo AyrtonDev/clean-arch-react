@@ -27,7 +27,7 @@ export default {
       loader: 'swc-loader',
       exclude: /node_modules/
     }, {
-      test: /\.module\.scss$/,
+      test: /\.scss$/,
       use: [
         'style-loader',
         {
@@ -42,11 +42,7 @@ export default {
         'sass-loader',
       ],
       exclude: /node_modules/
-    }, {
-      test: /\.scss$/,
-      exclude: /\.module\.scss$/,
-      use: ['style-loader', 'css-loader', 'sass-loader'],
-    },]
+    }]
   },
   devServer: {
     static: {
