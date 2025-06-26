@@ -9,10 +9,12 @@ export default {
   coverageDirectory: 'coverage',
   testEnvironment: 'jsdom',
   transform: {
-    '.+\\.{ts|tsx}$': 'ts-jest'
+    '^.+\\.tsx?$': 'ts-jest'
   },
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',
     '\\.scss$': 'identity-obj-proxy'
-  }
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 }

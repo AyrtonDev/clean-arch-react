@@ -10,6 +10,7 @@ export default defineConfig([
     '.vscode/**',
     'coverage/**',
     '*.config.js',
+    '*.setup.*',
     'public/**',
     '*.scss'
   ]),
