@@ -1,3 +1,18 @@
 import { createContext } from 'react'
 
-export default createContext(null)
+type StateFormType = {
+  isLoading: boolean
+}
+
+type StateErrorType = {
+  email: string
+  password: string
+  main: string
+}
+
+type FormContextType = {
+  state: StateFormType
+  errorState: StateErrorType
+}
+
+export default createContext<FormContextType | null>(null)
