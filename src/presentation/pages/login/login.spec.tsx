@@ -1,10 +1,12 @@
 import React from 'react'
 import 'jest-localstorage-mock'
+import { createMemoryHistory, type MemoryHistory } from 'history'
 import { cleanup, fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
 import Login from './login'
 import { AuthenticationSpy, ValidationSpy } from '@/presentation/test'
 import { faker } from '@faker-js/faker'
 import { InvalidCredentialError } from '@/domain/errors'
+import { Router } from 'react-router-dom'
 
 type SutTypes = {
   sut: RenderResult
@@ -16,11 +18,16 @@ type SutParams = {
   validationError: string
 }
 
+const history = createMemoryHistory()
 const makeSut = (params?: SutParams): SutTypes => {
   const validationSpy = new ValidationSpy()
   const authenticationSpy = new AuthenticationSpy()
   validationSpy.errorMessage = params?.validationError
-  const sut = render(<Login validation={validationSpy} authentication={authenticationSpy} />)
+  const sut = render(
+    <Router location={history.location} navigator={history}>
+      <Login validation={validationSpy} authentication={authenticationSpy} />
+    </Router>
+  )
   return {
     sut,
     validationSpy,
@@ -174,5 +181,13 @@ describe('Login Component', () => {
       'accessToken',
       authenticationSpy.account.accessToken
     )
+  })
+
+  test('Should go to signup page', async () => {
+    const { sut } = makeSut()
+    const register = sut.getByTestId('register')
+    fireEvent.click(register)
+    expect(history.index).toBe(1)
+    expect(history.location.pathname).toBe('/signup')
   })
 })
