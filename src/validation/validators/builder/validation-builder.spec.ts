@@ -30,7 +30,6 @@ describe('ValidationBuilder', () => {
   test('Should return a list of validations', () => {
     const field = faker.database.column()
     const length = faker.number.int()
-    console.log(length)
     const validations = sut.field(field).required().min(length).email().build()
     expect(validations).toEqual([
       new RequiredFieldValidation(field),
